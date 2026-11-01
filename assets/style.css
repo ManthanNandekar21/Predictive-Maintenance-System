@@ -1,0 +1,112 @@
+/* ── Global ────────────────────────────────────────────────── */
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(135deg, #0d0d1a 0%, #16213e 60%, #0f3460 100%);
+    color: #e0e0e0;
+}
+[data-testid="stSidebar"] {
+    background: #0a0a1a;
+    border-right: 1px solid #1e3a5f;
+}
+[data-testid="stSidebar"] * { color: #b0c4de !important; }
+
+/* ── Metric cards ──────────────────────────────────────────── */
+[data-testid="metric-container"] {
+    background: rgba(22, 33, 62, 0.85);
+    border: 1px solid #1e3a5f;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+[data-testid="metric-container"] label { color: #90caf9 !important; }
+[data-testid="metric-container"] [data-testid="stMetricValue"] {
+    color: #ffffff !important;
+    font-size: 2rem !important;
+}
+
+/* ── Headings ──────────────────────────────────────────────── */
+h1 { color: #64b5f6 !important; letter-spacing: 1px; }
+h2 { color: #90caf9 !important; border-bottom: 1px solid #1e3a5f; padding-bottom: 4px; }
+h3 { color: #b0c4de !important; }
+
+/* ── Buttons ───────────────────────────────────────────────── */
+[data-testid="baseButton-primary"] {
+    background: linear-gradient(90deg, #1565c0, #0d47a1) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(21,101,192,0.4);
+    transition: all 0.2s;
+}
+[data-testid="baseButton-primary"]:hover {
+    background: linear-gradient(90deg, #1976d2, #1565c0) !important;
+    box-shadow: 0 6px 20px rgba(21,101,192,0.6);
+}
+[data-testid="baseButton-secondary"] {
+    background: rgba(30,58,95,0.6) !important;
+    color: #90caf9 !important;
+    border: 1px solid #1e3a5f !important;
+    border-radius: 8px !important;
+}
+
+/* ── Inputs ────────────────────────────────────────────────── */
+[data-testid="stNumberInput"] input,
+[data-testid="stSelectbox"] > div > div {
+    background: rgba(13,19,33,0.8) !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #1e3a5f !important;
+    border-radius: 6px !important;
+}
+
+/* ── Dividers ──────────────────────────────────────────────── */
+hr { border-color: #1e3a5f !important; }
+
+/* ── Tables ────────────────────────────────────────────────── */
+[data-testid="stDataFrame"] {
+    background: rgba(16,25,46,0.8) !important;
+    border-radius: 8px;
+}
+
+/* ── Status box helper classes (applied via st.markdown) ────── */
+.status-ok {
+    background: rgba(76,175,80,0.15);
+    border-left: 4px solid #4CAF50;
+    border-radius: 6px;
+    padding: 12px 16px;
+    color: #a5d6a7;
+}
+.status-warn {
+    background: rgba(255,193,7,0.15);
+    border-left: 4px solid #FFC107;
+    border-radius: 6px;
+    padding: 12px 16px;
+    color: #ffe082;
+}
+.status-danger {
+    background: rgba(244,67,54,0.15);
+    border-left: 4px solid #F44336;
+    border-radius: 6px;
+    padding: 12px 16px;
+    color: #ef9a9a;
+}
+.status-critical {
+    background: rgba(244,67,54,0.25);
+    border: 1px solid #F44336;
+    border-radius: 8px;
+    padding: 16px;
+    color: #ef9a9a;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(244,67,54,0.4); }
+    70%  { box-shadow: 0 0 0 10px rgba(244,67,54,0); }
+    100% { box-shadow: 0 0 0 0 rgba(244,67,54,0); }
+}
+.rec-card {
+    background: rgba(22,33,62,0.7);
+    border: 1px solid #1e3a5f;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+}
