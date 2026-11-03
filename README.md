@@ -157,17 +157,4 @@ python train_models.py --csv dataset.csv
 - The application currently uses user-entered parameters rather than live industrial sensor streams.
 - Recommendations require validation by domain experts before real-world use.
 
-## Project Team
 
-**B.Tech Data Science Minor Project · 2026–27**  
-**Guide:** Prof. Jolly Nikhade  
-**Institution:** Ramdeobaba College of Engineering and Management, Nagpur
-
-- Manthan Sunil Nandekar — ECE
-- Sadhana Sandip Deshpande — Mechanical
-- Tanishq Vijay Bhoyar — ECE
-- Ansh Bisen — ECE
-
----
-
-*Academic prototype. Predictions are probabilistic estimates and do not replace certified engineering inspection.*
