@@ -1,127 +1,173 @@
 # AI-Based Industrial Predictive Maintenance & Failure Diagnosis System
 
-A production-grade Streamlit dashboard for machine failure prediction, multi-label
-failure type diagnosis, SHAP explainability, and automated maintenance recommendations.
+An AI-powered Streamlit application for industrial machine failure prediction, failure-type diagnosis, SHAP explainability, and maintenance recommendations. Built using the **AI4I 2020 Predictive Maintenance Dataset**.
 
-Built on the **AI4I 2020 Predictive Maintenance** dataset (SMOTENC-balanced, 10,000 records).
+<p align="center">
+  <a href="https://industrial-predictive-maintenance-system21.streamlit.app/"><strong>🚀 Open Live Dashboard</strong></a>
+  &nbsp; | &nbsp;
+  <a href="https://github.com/ManthanNandekar21/Predictive-Maintenance-System">GitHub Repository</a>
+</p>
 
----
+## Dashboard Preview
+
+<p align="center">
+  <img src="images/01-machine-input.png" alt="Machine input and operating parameters" width="48%">
+  <img src="images/02-prediction-results.png" alt="Machine failure prediction results" width="48%">
+</p>
+<p align="center">
+  <img src="images/03-failure-diagnosis.png" alt="Failure type diagnosis" width="48%">
+  <img src="images/04-shap-waterfall-and-bar.png" alt="SHAP waterfall and contribution plots" width="48%">
+</p>
+<p align="center">
+  <img src="images/05-maintenance-recommendations.png" alt="Maintenance recommendations" width="75%">
+</p>
+
+## Key Features
+
+- **Failure prediction:** XGBoost classifies machine conditions as Failure or No Failure.
+- **Failure diagnosis:** Five Random Forest classifiers estimate TWF, HDF, PWF, OSF, and RNF probabilities.
+- **Risk assessment:** Maps failure probability to Low, Medium, High, or Critical risk.
+- **Explainable AI:** SHAP explains the features influencing XGBoost predictions.
+- **Maintenance recommendations:** Provides rule-based suggestions from machine conditions and prediction results.
+- **Interactive dashboard:** Six Streamlit pages with prediction history and CSV/PDF exports.
+
+## System Architecture
+
+![System architecture](images/06-system-architecture.png)
+
+**Workflow:** Dataset → SMOTENC balancing → preprocessing and feature engineering → XGBoost and Random Forest models → prediction and diagnosis → SHAP explanations → recommendations → Streamlit dashboard.
+
+## Dataset & Feature Engineering
+
+- **Dataset:** AI4I 2020 Predictive Maintenance Dataset (10,000 records).
+- **Original class distribution:** 9,661 normal records and 339 failure records.
+- **Balanced dataset:** 6,500 normal and 3,500 failure records using SMOTENC.
+- **Model inputs:** 12 features, comprising five raw numerical readings, four engineered features, and three one-hot encoded product-type features.
+
+![Original and balanced class distribution](images/07-dataset-class-distribution.png)
+
+| Engineered feature | Formula |
+|---|---|
+| `Temp_Delta` | Process temperature − Air temperature |
+| `Power_W` | Torque × RPM × 2π / 60 |
+| `Wear_per_Torque` | Tool wear / (Torque + 1e-5) |
+| `Speed_Torque_Ratio` | RPM / (Torque + 1e-5) |
+
+## Models & Performance
+
+| Model | Purpose |
+|---|---|
+| XGBoost | Binary failure prediction (400 estimators, depth 5, learning rate 0.05) |
+| Random Forest | Five failure-type classifiers (200 estimators, depth 8) |
+| Gradient Boosting, Random Forest, Decision Tree, Logistic Regression | Benchmark comparison |
+
+Reported XGBoost test-set results (2,000 records):
+
+| Accuracy | Precision | Recall | F1-score | ROC-AUC |
+|---|---|---|---|---|
+| 97.60% | 96.05% | 97.14% | 0.9659 | 0.9981 |
+
+![Model comparison](images/10-model-comparison.png)
+
+![XGBoost confusion matrix](images/11-xgboost-confusion-matrix.png)
+
+Additional model details are shown in the [model architecture](images/08-model-architecture.png) and [feature importance](images/09-feature-importance.png) diagrams.
+
+## Dashboard Modules
+
+1. Overview Dashboard
+2. Machine Input & Prediction
+3. Failure Diagnosis
+4. SHAP Explainability
+5. Maintenance Recommendations
+6. Model Performance
+
+## Technology Stack
+
+`Python` · `Streamlit` · `Pandas` · `NumPy` · `Scikit-learn` · `XGBoost` · `imbalanced-learn (SMOTENC)` · `SHAP` · `Plotly` · `Matplotlib` · `ReportLab`
 
 ## Project Structure
 
-```
+```text
 predictive-maintenance/
-├── app.py                        # Main Streamlit application (6 pages)
-├── train_models.py               # Model training script (run once)
-├── requirements.txt              # Python dependencies
+├── app.py
+├── train_models.py
+├── requirements.txt
+├── dataset.csv
 ├── assets/
-│   └── style.css                 # Dark navy industrial theme
-├── models/                       # Auto-created by train_models.py
-│   ├── xgboost_failure_model.pkl # Binary failure classifier
-│   └── failure_type_model.pkl    # Sub-type classifiers (TWF/HDF/PWF/OSF/RNF)
+│   └── style.css
+├── images/
+│   ├── 01-machine-input.png
+│   ├── 02-prediction-results.png
+│   ├── 03-failure-diagnosis.png
+│   ├── 04-shap-waterfall-and-bar.png
+│   ├── 05-maintenance-recommendations.png
+│   ├── 06-system-architecture.png
+│   ├── 07-dataset-class-distribution.png
+│   ├── 08-model-architecture.png
+│   ├── 09-feature-importance.png
+│   ├── 10-model-comparison.png
+│   └── 11-xgboost-confusion-matrix.png
+├── models/
+│   ├── xgboost_failure_model.pkl
+│   └── failure_type_model.pkl
 └── src/
-    ├── __init__.py
-    ├── feature_engineering.py    # Feature computation & sanitisation
-    ├── prediction.py             # XGBoost binary prediction
-    ├── failure_diagnosis.py      # Multi-label failure sub-type diagnosis
-    ├── shap_explainer.py         # SHAP TreeExplainer wrappers
-    ├── recommendation_engine.py  # Sensor-driven maintenance recommendations
-    └── report_generator.py       # CSV history & PDF report export
+    ├── feature_engineering.py
+    ├── prediction.py
+    ├── failure_diagnosis.py
+    ├── shap_explainer.py
+    ├── recommendation_engine.py
+    └── report_generator.py
 ```
 
----
+## Run Locally
 
-## Quick Start
+Clone the repository and create a virtual environment:
 
-### 1. Install dependencies
+```bash
+git clone https://github.com/ManthanNandekar21/Predictive-Maintenance-System.git
+cd Predictive-Maintenance-System
+python -m venv .venv
+```
+
+Activate the environment (Windows):
+
+```powershell
+.venv\Scripts\activate
+```
+
+Install dependencies and launch the app:
 
 ```bash
 pip install -r requirements.txt
-```
-
-### 2. Place the balanced dataset
-
-Copy `ai4i2020_balanced.csv` (generated by `balance_dataset.py`) into the
-`predictive-maintenance/` root folder.
-
-```
-predictive-maintenance/
-└── ai4i2020_balanced.csv   ← place here
-```
-
-### 3. Train the models
-
-```bash
-cd predictive-maintenance
-python train_models.py --csv ai4i2020_balanced.csv
-```
-
-Output:
-```
-  ✓ XGBoost model saved → models/xgboost_failure_model.pkl
-  ✓ Sub-type models saved → models/failure_type_model.pkl
-```
-
-Training takes ~30–60 seconds on a modern machine.
-
-### 4. Launch the dashboard
-
-```bash
 streamlit run app.py
 ```
 
-Open `http://localhost:8501` in your browser.
+Open `http://localhost:8501` in your browser. Ensure `dataset.csv` and compatible trained model files are present. If the model files are not included, train them using the project's training script:
+
+```bash
+python train_models.py --csv dataset.csv
+```
+
+## Limitations
+
+- AI4I 2020 is a synthetic dataset and may not represent every real industrial environment.
+- The reported workflow balances the data before the train-test split, which can lead to optimistic evaluation results.
+- RNF is random by design and cannot be reliably inferred from the available sensor features.
+- The application currently uses user-entered parameters rather than live industrial sensor streams.
+- Recommendations require validation by domain experts before real-world use.
+
+## Project Team
+
+**B.Tech Data Science Minor Project · 2026–27**  
+**Guide:** Prof. Jolly Nikhade  
+**Institution:** Ramdeobaba College of Engineering and Management, Nagpur
+
+- Manthan Sunil Nandekar — ECE
+- Sadhana Sandip Deshpande — Mechanical
+- Tanishq Vijay Bhoyar — ECE
+- Ansh Bisen — ECE
 
 ---
 
-## Dashboard Pages
-
-| Page | Description |
-|------|-------------|
-| **📊 Overview Dashboard** | Summary metrics, failure distribution, prediction history, CSV download |
-| **🔮 Machine Input & Prediction** | Input operating parameters, gauge chart, risk level, PDF report |
-| **🔬 Failure Diagnosis** | Multi-label sub-type probabilities (TWF/HDF/PWF/OSF/RNF), bar chart |
-| **🧠 SHAP Explainability** | Waterfall & bar SHAP plots, top-5 feature contributions |
-| **🛠 Maintenance Recommendations** | Priority-based actions derived from prediction + SHAP + sensor values |
-| **📈 Model Performance** | Comparison table & chart for 5 ML models (XGBoost, GBM, RF, DT, LR) |
-
----
-
-## Feature Engineering
-
-The dashboard computes four derived features from raw sensor inputs:
-
-| Feature | Formula |
-|---------|---------|
-| `Temp_Delta` | `Process Temp − Air Temp` |
-| `Power_W` | `Torque × RPM × 2π / 60` |
-| `Wear_per_Torque` | `Tool Wear / (Torque + 1e-5)` |
-| `Speed_Torque_Ratio` | `RPM / (Torque + 1e-5)` |
-
-Combined with one-hot encoded `Type` (L/M/H), this gives **12 input features** to the model.
-
----
-
-## Models
-
-### Binary Failure Classifier (XGBoost)
-- n_estimators=400, max_depth=5, learning_rate=0.05
-- scale_pos_weight computed from training class ratio
-- **Test F1 ≈ 0.966, ROC-AUC ≈ 0.998**
-
-### Failure Sub-Type Classifiers (RandomForest per flag)
-- One classifier each for: TWF, HDF, PWF, OSF, RNF
-- n_estimators=200, max_depth=8, class_weight='balanced'
-- Confidence threshold: 30% (adjustable in `src/failure_diagnosis.py`)
-
----
-
-## Notes
-
-- **Data leakage prevention:** TWF/HDF/PWF/OSF/RNF sub-flags are **not** used as
-  model inputs — they are prediction targets, not independent sensor readings.
-- **SHAP:** Uses `shap.TreeExplainer` on the XGBoost model. Requires `shap` package.
-- **PDF export:** Uses `reportlab` for formatted reports; falls back to a minimal
-  plain-text PDF if not installed.
-- **Disclaimer:** All predictions are probabilistic ML estimates and do not replace
-  a certified engineering inspection.
+*Academic prototype. Predictions are probabilistic estimates and do not replace certified engineering inspection.*
